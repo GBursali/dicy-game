@@ -22,6 +22,18 @@ class Tour
     print "Sum of these dices is: #{sum_of_dices}."
     stop_cli
   end
+  
+  def take_bet
+    print "You have #{@money}$. How much do you bet(-1 for all in)?:"
+    bet = gets.to_i
+    bet = @money if bet == -1 # All in.
+    return bet if bet <= @money && bet > 0
+    #this is like an else block. 
+    print 'You cant afford that or you typed an absurd value.'
+    stop_cli
+    clear_screen
+    take_bet
+  end
 
   def roll_game
     sum = 0
@@ -38,31 +50,18 @@ class Tour
     gets
   end
 
-  def take_bet
-    
-    print "You have #{@money}$. How much do you bet(-1 for all in)?:"
-    bet = gets.to_i
-    bet = @money if bet == -1 # All in.
-    return bet if bet <= @money && bet > 0
-
-    print 'You cant afford that or you typed an absurd value.'
-    stop_cli
-    clear_screen
-    take_bet
-  end
-
   def clear_screen
     system Gem.win_platform? ? 'cls' : 'clear'
   end
 
-  def calculate_award(bet, roll, show_screen = true)
+  def calculate_award(bet, roll, print = true)
     @result = 0
     if roll >= @limit
       @result = bet + roll - @limit
-      puts 'You win.' if show_screen
+      puts 'You win.' if print
     else
       @result = -bet
-      puts 'You lost' if show_screen
+      puts 'You lost' if print
     end
   end
 end
@@ -72,7 +71,7 @@ score = 0
 while money > 0
   score += 1
   print "Round #{@score}=>"
-  tour = Tour.new(money, score)
+  tour = Tour.new(money)
   money += tour.result
 end
 puts "Game over. Your score is:#{score}"
