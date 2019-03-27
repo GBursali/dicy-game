@@ -18,7 +18,7 @@ class Tour
   def play
     bet = take_bet
     sum_of_dices = roll_game
-    calculate_award(bet, sum_of_dices)
+    calculate_reward(bet, sum_of_dices)
     print "Sum of these dices is: #{sum_of_dices}."
     stop_cli
   end
@@ -54,7 +54,7 @@ class Tour
     system Gem.win_platform? ? 'cls' : 'clear'
   end
 
-  def calculate_award(bet, roll, print = true)
+  def calculate_reward(bet, roll, print = true)
     @result = 0
     if roll >= @limit
       @result = bet + roll - @limit
